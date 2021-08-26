@@ -1,22 +1,27 @@
 /**
- *  PTT twimg fix
+ *  PTT Twimg Fix
  *  用於 PTT 的 userscript。
  *  當瀏覽器設置了追蹤保護時，將導致至部分圖片（如：pbs.twimg.com/*）載入失敗。
  *  此 userscript 可偵測並載入那些失敗的圖片。
+ *
+ *  ※ PTT2 沒測試
  */
 // ==UserScript==
-// @name         PTT twimg fix
+// @name         PTT Twimg Fix
 // @description  An userscript to load twitter images in ptt.cc if web browser is in tracking protection mode
-// @version      0.2.3
+// @version      0.3.0a
+// @license      MIT
+// @match        https://iamchucky.github.io/PttChrome/*
 // @match        https://term.ptt.cc
 // @match        https://term.ptt2.cc
-// @match        https://iamchucky.github.io/PttChrome/*
 // @match        https://www.ptt.cc/bbs/*
-// @license      MIT
-// @grant        GM_xmlhttpRequest
+// @match        https://www.ptt.cc/man/*
+// @compatible   chrome Tampermonkey
+// @compatible   firefox Tampermonkey
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
 // @connect      pbs.twimg.com
-// @compatible   Tampermonkey
+// @connect      imgur.com
 // ==/UserScript==
 
 /* jshint esversion: 6 */
@@ -137,7 +142,7 @@
     });
   }
 
-  /* ===============  =============== */
+  /* =============== PttChrome =============== */
   const RE_IMG_URL = /^https?:\/\/.+\.(jpg|png|gif|bmp)/i;
   let picPrevWatcher = null;
   if (location.hostname === 'term.ptt.cc') {
@@ -208,7 +213,16 @@
     if (picPrevWatcher) {
       picPrevWatcher.observe(container, { childList: true, subtree: true });
     }
-  });
+  }).catch(() => {});
 
   /* =============== Web BBS =============== */
+  if (location.hostname === 'www.ptt.cc') {
+    document.body.querySelectorAll('.richcontent img').forEach(img => {
+      console.debug(img);
+      img.addEventListener('error', function () {
+        this.dataset.src = this.src;
+        getDataUri(this.src).then(uri => { this.src = uri; });
+      });
+    });
+  }
 })();
