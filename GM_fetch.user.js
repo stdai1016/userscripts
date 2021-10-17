@@ -3,15 +3,15 @@
 // @description  GM_fetch
 // @version      0.1.0b
 // @license      MIT
+// @namespace    https://github.com/stdai1016
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
 /**
- *  @param {RequestInfo} resource
+ *  @param {RequestInfo} input
  *  @param {RequestInit} init
  *  @returns {Promise<GM_Response>} extension of `Response`
  */
-
 async function GM_fetch (input, init = null) { // eslint-disable-line
   class GM_Response extends Response { // eslint-disable-line camelcase
     constructor (body = null, init = null) {
