@@ -21,7 +21,8 @@
 /**
  * @param {{href: string, download?: string}[]} anchors
  * @param {Object} options
- * @param {int=} options.retry
+ * @param {int=} options.tries
+ * @param {boolean=} options.ignore_error
  * @param {int=} options.threads
  * @param {ProgressEventListener=} options.onprogress
  * @param {FetchFunction=} options.fetch
@@ -36,7 +37,8 @@ async function multiFileDownload (anchors, options = {}) { // eslint-disable-lin
   const files = [];
   const total = anchors.length;
   const retryCounter = {};
-  const retry = options.retry ?? 5;
+  const tries = options.tries ?? 1;
+  const throwError = !(options.ignore_error ?? false);
   const threads = Math.max(options.threads ?? 1, 1);
   const fetchFunction = options.fetch ?? fetch;
   const onprogress = (type) => {
@@ -65,19 +67,22 @@ async function multiFileDownload (anchors, options = {}) { // eslint-disable-lin
       }
       console.debug(`Downloader#${id}: download "${name}" (${url})`);
 
-      const resp = await fetchFunction(url, {
-        headers: { 'cache-control': 'no-cache', referer: location.origin }
-      });
-      const blob = resp.status === 200 ? await resp.blob() : new Blob();
-      if (blob.size) {
+      try {
+        const resp = await fetchFunction(url, {
+          headers: { 'cache-control': 'no-cache', referer: location.origin }
+        });
+        const blob = resp.status === 200 ? await resp.blob() : new Blob();
+        if (!blob.size) throw new Error(`${resp.status} ${resp.statusText}`);
         files.push(new File([blob], name, { type: blob.type }));
         onprogress('progress');
-      } else {
-        retryCounter[url] = (retryCounter[url] ?? retry) - 1;
-        if (retryCounter[url] === 0) {
+      } catch (e) {
+        console.debug(e);
+        retryCounter[url] = (retryCounter[url] ?? tries) - 1;
+        if (retryCounter[url] !== 0) {
+          anchors.push(a);
+        } else if (throwError) {
           throw new Error(`Download failed: ${name} (${url}`);
         }
-        anchors.push(a);
       }
       return downloadQueue();
     };
