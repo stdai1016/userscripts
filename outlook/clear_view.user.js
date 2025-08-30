@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Clear View
-// @namespace    https://github.com/stdai1016/userscripts/outlook
-// @version      2025-08-24
 // @description  Clear View for Outlook Web
-// @match        https://outlook.live.com/mail/*
-// @icon         https://icons.duckduckgo.com/ip2/live.com.ico
+// @version      2025-08-24
 // @license      MIT
+// @homepage     https://github.com/stdai1016
+// @namespace    https://github.com/stdai1016/userscripts/outlook
+// @icon         https://icons.duckduckgo.com/ip2/live.com.ico
+// @match        https://outlook.live.com/mail/*
 // @grant        GM_addStyle
 // ==/UserScript==
 
