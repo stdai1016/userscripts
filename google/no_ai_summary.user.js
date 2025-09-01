@@ -4,13 +4,13 @@
 // ==UserScript==
 // @name         No AI Summary
 // @description  Hide AI Summary in search results
-// @version      2025-08-31
+// @version      2025-09-01
 // @license      MIT
 // @homepage     https://github.com/stdai1016
 // @namespace    https://github.com/stdai1016/userscripts/google
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=google.co
 // @match        *://google.com/search?*
-// @match        *://www.google.com/search?*m
+// @match        *://www.google.com/search?*
 // @grant        GM_addStyle
 // ==/UserScript==
 
