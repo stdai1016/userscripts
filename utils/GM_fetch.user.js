@@ -43,17 +43,19 @@ async function GM_fetch (input, init = null) { // eslint-disable-line
   }
 
   const request = new Request(input, init);
-  const data = await request.blob();
+  const data = ['head', 'get'].includes(request.method.toLowerCase())
+    ? null
+    : await request.blob();
   return new Promise(function (resolve, reject) {
     GM_xmlhttpRequest({
       method: request.method,
       url: request.url,
       headers: cvtHeaders(request.headers),
-      data: data,
+      data,
       binary: true,
       responseType: 'blob',
       onabort: () => reject(new DOMException('Aborted', 'AbortError')),
-      onerror: () => reject(new TypeError('fetch error')),
+      onerror: (e) => reject(new TypeError(e?.statusText ?? 'fetch error')),
       ontimeout: () => reject(new TypeError('fetch timeout')),
       onload: function (resp) {
         const response = new GM_Response(resp.response, {
