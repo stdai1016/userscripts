@@ -4,10 +4,11 @@
 // ==UserScript==
 // @name        twimg:orig Redirect
 // @description Go to orignal size URL of Twitter image
-// @version     0.3.3a
+// @version     0.3.3
 // @license     MIT
 // @homepage    https://github.com/stdai0a10
 // @namespace   https://github.com/stdai0a10/userscripts/x_com
+// @icon        https://icons.duckduckgo.com/ip2/x.com.ico
 // @match       https://pbs.twimg.com/media/*
 // @run-at      document-start
 // @grant       none
