@@ -4,7 +4,7 @@
 // ==UserScript==
 // @name        twimg:orig Redirect
 // @description Go to orignal size URL of Twitter image
-// @version     0.3.3
+// @version     0.3.4
 // @license     MIT
 // @homepage    https://github.com/stdai0a10
 // @namespace   https://github.com/stdai0a10/userscripts/x_com
