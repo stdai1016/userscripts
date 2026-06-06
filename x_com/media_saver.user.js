@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Media Saver
 // @description Save media from tweets
-// @version     0.1.0a
+// @version     0.1.1
 // @license     MIT
 // @homepage    https://github.com/stdai0a10
 // @namespace   https://github.com/stdai0a10/userscripts/x_com
@@ -261,6 +261,7 @@
 
     if (action && config('enable_keyboard')) {
       e.preventDefault();
+      e.stopPropagation();
       setTimeout(action, 0, e);
     }
   });
