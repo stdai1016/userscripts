@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Check User Name
 // @description Check case of username in URL
-// @version     0.1.0a
+// @version     0.1.0c
 // @license     MIT
 // @homepage    https://github.com/stdai0a10
 // @namespace   https://github.com/stdai0a10/userscripts/x_com
@@ -25,8 +25,7 @@
 (function () {
   'use strict';
 
-  const P_URL_TWEET =
-    /^https:\/\/(?:mobile\.|)x\.com\/(\w+)\/status\/(\d+)(?:\/(\w+)\/(\d+))?/;
+  const P_PATH_TWEET = /^\/(\w+)\/status\/(\d+)(?:\/(\w+)\/(\d+))?/;
   const P_URL_USER = /^https:\/\/(?:mobile\.|)x\.com\/(\w+)?/;
   const S_TWEET = '[data-testid="tweet"]:not(.r-1loqt21)';
   const S_USER_AVATAR = '[data-testid="Tweet-User-Avatar"]';
@@ -34,7 +33,7 @@
 
   const getUserName = async () => {
     await sleep(1000);
-    const link = location.href.match(P_URL_TWEET)
+    const link = location.pathname.match(P_PATH_TWEET)
       ? await element(`${S_TWEET} ${S_USER_AVATAR} a[role="link"]`)
       : await element(S_USER_JOIN_DATE);
     return (link?.href || location.href).match(P_URL_USER)?.[1] || '';
@@ -50,9 +49,10 @@
   };
 
   const match = location.href.match(P_URL_USER);
-  if (match) {
+  if (match && match[1] !== 'i') {
     getUserName().then((user) => {
       if (user && match[1] !== user) {
+        console.debug(`replace name to "${user}"`);
         const url = location.href.replace(`/${match[1]}`, `/${user}`);
         window.history.replaceState(null, document.title, url);
       }
