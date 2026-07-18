@@ -153,7 +153,6 @@
 
     const txtCreditCard = read('txtCreditCard');
     const txtEasyCard = read('txtEasyCard');
-    console.debug(txtCreditCard, txtEasyCard);
     return { txtCreditCard, txtEasyCard };
   };
 
@@ -177,7 +176,11 @@
     form.querySelector('button[name="submit"]').onclick = () => {
       const cards = [...document.querySelectorAll('tbody[data-card]')]
         .filter((i) => i.dataset.card)
-        .sort((i) => i.querySelector('input[type="number"]').value)
+        .sort((a, b) => {
+          a = a.querySelector('input[type="number"]').value;
+          b = b.querySelector('input[type="number"]').value;
+          return a - b;
+        })
         .map((i) => readCardNumber(i));
       form.remove();
       setCardNumbers(cards);
