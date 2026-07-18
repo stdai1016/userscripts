@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "eslint": "^10.5.0",
+    "eslint-plugin-html": "^8.1.4",
+    "prettier-eslint-cli": "^9.2.1",
+    "semistandard": "^17.0.0"
+  },
+  "scripts": {
+    "lint": "npx eslint",
+    "lint:fix": "npx eslint --fix",
+    "prettier": "npx prettier-eslint",
+    "prettier:write": "npx prettier-eslint --write"
+  }
+}
