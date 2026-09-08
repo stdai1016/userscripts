@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Clean URL
 // @description Clean URL
-// @version     0.1.1
+// @version     0.1.2
 // @homepage    https://github.com/stdai0a10
 // @namespace   https://github.com/stdai0a10/userscripts/104
 // @icon        https://icons.duckduckgo.com/ip2/104.com.tw.ico
@@ -82,6 +82,13 @@
       selectors: [
         '.jb-container .sidebar .browse-history a',
         '.jb-container .sidebar .similar-jobs a'
+      ]
+    },
+    {
+      match: /\/\/pda.104.com.tw\/work\/jobStore/,
+      selectors: [
+        '.jb-container--full [class|="my104-container"] a[class|="info"]',
+        '.jb-container--full .job-list-container a[class|="info"]'
       ]
     },
     {
